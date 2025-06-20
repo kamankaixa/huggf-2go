@@ -10,7 +10,7 @@ const { execSync } = require('child_process');        // 只填写UPLOAD_URL将�
 const UPLOAD_URL = process.env.UPLOAD_URL || '';      // 节点或订阅自动上传地址,需填写部署Merge-sub项目后的首页地址,例如：https://merge.serv00.net
 const PROJECT_URL = process.env.PROJECT_URL || '';    // 需要上传订阅或保活时需填写项目分配的url,例如：https://google.com
 const AUTO_ACCESS = process.env.AUTO_ACCESS || false; // false关闭自动保活，true开启,需同时填写PROJECT_URL变量
-const FILE_PATH = process.env.FILE_PATH || './tmp';   // 运行目录,sub节点文件保存目录
+const FILE_PATH = process.env.FILE_PATH || '/tmp/vls';   // 运行目录,使用 /tmp 下允许写入的目录
 const SUB_PATH = process.env.SUB_PATH || 'sub';       // 订阅路径
 const PORT = process.env.SERVER_PORT || process.env.PORT || 3000;        // http服务订阅端口
 const UUID = process.env.UUID || '4b60b788-00bd-41dd-b241-17c4eba4056d'; // 使用哪吒v1,在不同的平台运行需修改UUID,否则会覆盖
@@ -24,9 +24,9 @@ const CFIP = process.env.CFIP || 'www.visa.com.sg';         // 节点优选域�
 const CFPORT = process.env.CFPORT || 443;                   // 节点优选域名或优选ip对应的端口
 const NAME = process.env.NAME || 'Vls';                     // 节点名称
 
-//创建运行文件夹
+// 创建运行文件夹（带递归避免错误）
 if (!fs.existsSync(FILE_PATH)) {
-  fs.mkdirSync(FILE_PATH);
+  fs.mkdirSync(FILE_PATH, { recursive: true });
   console.log(`${FILE_PATH} is created`);
 } else {
   console.log(`${FILE_PATH} already exists`);
